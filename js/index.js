@@ -7,9 +7,17 @@ const allApiData = (dataLimit) => {
 
 const featuresAllApiData = (data) => {
   const featuresAllData = document.getElementById("features-all-data");
-  featuresAllApiData.innerHTML = "";
+  featuresAllData.innerHTML = "";
+  const showAll = document.getElementById('show-all');
+  // data = data.slice(0, 6);
+  if (data.length > 6) {
+    data = data.slice(0, 6);
+    showAll.classList.remove('d-none');
+  }
+  else{
+    showAll.classList.add('d-none');
+  }
   data.forEach((singleFeaturesData) => {
-      data = data.slice(0, 6);
     const { id, image, name, features, published_in } = singleFeaturesData;
     const card = document.createElement("div");
 
@@ -48,7 +56,6 @@ const fetchFeatureData = (id) => {
 };
 
 const showFeatureData = (featureDetails) => {
-  console.log(featureDetails);
   const {
     id,
     input_output_examples,
@@ -121,7 +128,7 @@ const showFeatureData = (featureDetails) => {
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-      <button>${accuracy}</button>
+      <button><a>${accuracy.score ? "d-block" : "d-none"}</a></button>
       <img  src="${image_link[0]}" class="card-img-top" alt="" >
         <h4 class="card-title">${
           input_output_examples[0].input
@@ -142,14 +149,23 @@ const showFeatureData = (featureDetails) => {
     `;
 };
 
-const searchData = (dataLimit) =>{
-  allApiData(6);
-
-}
-document.getElementById('show-all-data').addEventListener('click', function(){
+const searchData = (dataLimit) => {
   toggleLoader(true);
-  featuresAllApiData()
-})
+
+  allApiData(6);
+};
+document.getElementById("show-all-data").addEventListener("click", function () {
+  toggleLoader(true);
+  featuresAllApiData();
+  allApiData();
+
+});
+document.getElementById("show-all").addEventListener("click", function () {
+  toggleLoader(true);
+  allApiData();
+  featuresAllApiData();
+
+});
 
 const toggleLoader = (isLoading) => {
   const loadingSpinner = document.getElementById("loader");
@@ -160,25 +176,17 @@ const toggleLoader = (isLoading) => {
   }
 };
 
-document.getElementById("show-all-data").addEventListener("click", function () {
- toggleLoader(true);
-    allApiData();
-});
-
 // ${generateAllRandomData(rating.features)}
 
-const generateAllRandomData = rating =>{
-  let ratingHTML = '';
+const generateAllRandomData = (rating) => {
+  let ratingHTML = "";
   for (let i = 0; i < Math.floor(rating); i++) {
-    ratingHTML += `<li></li>`
+    ratingHTML += `<li></li>`;
   }
-  return ratingHTML
-}
+  return ratingHTML;
+};
 
 allApiData();
-
-
-
 
 // ${news?.others_info?.is_trending ? `<span class="badge text-bg-warning">Trending</span>` : ""}
 
