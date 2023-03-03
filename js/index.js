@@ -1,25 +1,16 @@
-const allApiData = () => {
+const allApiData = (dataLimit) => {
   const url = `https://openapi.programming-hero.com/api/ai/tools`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => featuresAllApiData(data.data.tools));
+    .then((data) => featuresAllApiData(data.data.tools, dataLimit));
 };
 
 const featuresAllApiData = (data) => {
-  // console.log(data);
-
   const featuresAllData = document.getElementById("features-all-data");
-  const showAllData = document.getElementById("show-all");
-//   if (data.length > 6) {
-//     data = data.slice(0, 6);
-//     showAllData.classList.remove("d-none");
-//   } else {
-//     ;
-//     showAllData.classList.add("d-none");
-//   }
-featuresAllApiData.innerHTML = '';
+  featuresAllApiData.innerHTML = "";
   data.forEach((singleFeaturesData) => {
-    const { id, image, name, features,published_in } = singleFeaturesData;
+      data = data.slice(0, 6);
+    const { id, image, name, features, published_in } = singleFeaturesData;
     const card = document.createElement("div");
 
     card.classList.add("card", "mb-3");
@@ -29,9 +20,9 @@ featuresAllApiData.innerHTML = '';
                         <div class="card-body">
                         <h4 class="card-title">Features</h4>
                         <p class="card-text"><ol type ="1">
-                        <li>${features[0]}</li>
-                        <li>${features[1]}</li>
-                        <li>${features[2]}</li>
+              
+                    <li>${generateAllRandomData(features.rating)}</li>
+                        
                     </ol></p>
                     
                     <div class="d-flex justify-content-between">
@@ -46,7 +37,7 @@ featuresAllApiData.innerHTML = '';
         `;
     featuresAllData.appendChild(card);
   });
-//   toggleLoader(false);
+  toggleLoader(false);
 };
 
 const fetchFeatureData = (id) => {
@@ -58,17 +49,18 @@ const fetchFeatureData = (id) => {
 
 const showFeatureData = (featureDetails) => {
   console.log(featureDetails);
-  const { id, input_output_examples,image_link, input, description, pricing, features, integrations, feature_name, accuracy} = featureDetails;
-  // featuresAllApiData.innerHTML += `modal-body
-// const generate = (rating) =>{
-//     let ratingHTML=``;
-//     for(let i = 0; i<=Math.map(rating); i++){
-//         ratingHTML += `<li></li>`
-//     }
-//     if(rating - Math.map(rating) > 0){
-//         rating += `<li></li>`
-//     }
-// }
+  const {
+    id,
+    input_output_examples,
+    image_link,
+    input,
+    description,
+    pricing,
+    features,
+    integrations,
+    feature_name,
+    accuracy,
+  } = featureDetails;
   document.getElementById("modal-body").innerHTML = `
 
     <div class="card lg-6">
@@ -78,26 +70,48 @@ const showFeatureData = (featureDetails) => {
       <div class="card-body">
         <h4 class="card-title">${description}</h4>
         <div class="d-flex justify-content-around">
-        <h6>${pricing[0].price || 'Free of Cost/Basic'}</h6>
-        <h6>${pricing[1].price || 'Free Of Cost/Pro'}</h6>
-        <h6>${pricing[2].price || 'Free of Cost /Enterprise'}</h6>
+        <h6>${pricing[0].price ? pricing[0].price : "Free of Cost/Basic"}</h6>
+        <h6>${pricing[1].price ? pricing[1].price : "Free Of Cost/Pro"}</h6>
+        <h6>${
+          pricing[2].price ? pricing[2].price : "Free of Cost /Enterprise"
+        }</h6>
       </div>
       <div class="d-flex justify-content-around">
             <div class="">
                 <h4>Features</h4>
                 <ul>
-                    <li>${features[1].feature_name ? features[1].feature_name: 'Free of Cost/Basic'}</li>
-                    <li>${features[2].feature_name ? features[2].feature_name: 'Free Of Cost/Pro'}</li>
-                    <li>${features[3].feature_name ? features[3].feature_name: 'Free of Cost /Enterprise'}</li>
+                    <li>${
+                      features[1].feature_name
+                        ? features[1].feature_name
+                        : "Free of Cost/Basic"
+                    }</li>
+                    <li>${
+                      features[2].feature_name
+                        ? features[2].feature_name
+                        : "Free Of Cost/Pro"
+                    }</li>
+                    <li>${
+                      features[3].feature_name
+                        ? features[3].feature_name
+                        : "Free of Cost /Enterprise"
+                    }</li>
                     </ul>
             </div>
             <div class="">
                 <h4>Integrations</h4>
                 <ul >
-                    <li>${integrations[0] ? integrations[0] : 'No data Found'}</li>
-                    <li>${integrations[1] ? integrations[1] : 'No data Found'}</li>
-                    <li>${integrations[2] ? integrations[2] : 'No data Found'}</li>
-                    <li>${integrations[3] ? integrations[3] : 'No data Found'}</li>
+                    <li>${
+                      integrations[0] ? integrations[0] : "No data Found"
+                    }</li>
+                    <li>${
+                      integrations[1] ? integrations[1] : "No data Found"
+                    }</li>
+                    <li>${
+                      integrations[2] ? integrations[2] : "No data Found"
+                    }</li>
+                    <li>${
+                      integrations[3] ? integrations[3] : "No data Found"
+                    }</li>
                     </ul>
             </div>
         </div>
@@ -109,8 +123,16 @@ const showFeatureData = (featureDetails) => {
       <div class="card-body">
       <button>${accuracy}</button>
       <img  src="${image_link[0]}" class="card-img-top" alt="" >
-        <h4 class="card-title">${input_output_examples[0].input ? input_output_examples[0].input : 'Can you give any example?'}</h4>
-        <p class="card-text">${input_output_examples[0].output ? input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}</p>
+        <h4 class="card-title">${
+          input_output_examples[0].input
+            ? input_output_examples[0].input
+            : "Can you give any example?"
+        }</h4>
+        <p class="card-text">${
+          input_output_examples[0].output
+            ? input_output_examples[0].output
+            : "No! Not Yet! Take a break!!!"
+        }</p>
         
       </div>
     </div>
@@ -120,23 +142,42 @@ const showFeatureData = (featureDetails) => {
     `;
 };
 
+const searchData = (dataLimit) =>{
+  allApiData(6);
 
-// const toggleLoader = (isLoading) => {
-//   const loadingSpinner = document.getElementById("loader");
-//   if (isLoading) {
-//     loadingSpinner.classList.remove("d-none");
-//   } else {
-//     loadingSpinner.classList.add("d-none");
-//   }
-// };
+}
+document.getElementById('show-all-data').addEventListener('click', function(){
+  toggleLoader(true);
+  featuresAllApiData()
+})
 
-// document.getElementById("show-all-data").addEventListener("click", function () {
-//     toggleLoader(true);
-    
-//     allApiData();
-// });
+const toggleLoader = (isLoading) => {
+  const loadingSpinner = document.getElementById("loader");
+  if (isLoading) {
+    loadingSpinner.classList.remove("d-none");
+  } else {
+    loadingSpinner.classList.add("d-none");
+  }
+};
+
+document.getElementById("show-all-data").addEventListener("click", function () {
+ toggleLoader(true);
+    allApiData();
+});
+
+// ${generateAllRandomData(rating.features)}
+
+const generateAllRandomData = rating =>{
+  let ratingHTML = '';
+  for (let i = 0; i < Math.floor(rating); i++) {
+    ratingHTML += `<li></li>`
+  }
+  return ratingHTML
+}
 
 allApiData();
+
+
 
 
 // ${news?.others_info?.is_trending ? `<span class="badge text-bg-warning">Trending</span>` : ""}
