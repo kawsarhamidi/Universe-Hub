@@ -9,7 +9,7 @@ const featuresAllApiData = (data) => {
   // console.log(data);
   const featuresAllData = document.getElementById("features-all-data");
   const showAllData = document.getElementById("show-all-data");
-  if (data.length > 6) {
+  if (data.length) {
     data = data.slice(0, 6);
     showAllData.classList.remove("d-none");
   } else {
@@ -56,28 +56,50 @@ const fetchFeatureData = (id) => {
 
 const showFeatureData = (featureDetails) => {
   console.log(featureDetails);
-  const { id, image, name, features,image_link } = featureDetails;
+  const { id, input_output_examples,image_link, input, description, pricing, features, integrations, feature_name, accuracy} = featureDetails;
   // featuresAllApiData.innerHTML += `modal-body
 
   document.getElementById("modal-body").innerHTML = `
 
-    <div class="card md-6">
+    <div class="card lg-6">
     <div class="row">
-  <div class="col-sm-6 mb-3 mb-sm-0">
+  <div class="col-md-6 mb-3 mb-md-0">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        
+        <h4 class="card-title">${description}</h4>
+        <div class="d-flex justify-content-around">
+        <h6>${pricing[0].price}</h6>
+        <h6>${pricing[1].price}</h6>
+        <h6>${pricing[2].price}</h6>
+      </div>
+      <div class="d-flex justify-content-around">
+            <div class="">
+                <h4>Features</h4>
+                <ul>
+                    <li>${features[1].feature_name}</li>
+                    <li>${features[2].feature_name}</li>
+                    <li>${features[3].feature_name}</li>
+                </ul>
+            </div>
+            <div class="">
+                <h4>Integrations</h4>
+                <ul>
+                    <li>${integrations[0]}</li>
+                    <li>${integrations[1]}</li>
+                    <li>${integrations[2]}</li>
+                </ul>
+            </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-sm-6">
+  <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-      <img src="${image_link[0]}" class="card-img-top" alt="...">
-        <h4 class="card-title">Hi, how are you doing today?</45>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <button>${accuracy.score}</button>
+      <img  src="${image_link[0]}" class="card-img-top" alt="" >
+        <h4 class="card-title">${featureDetails.input_output_examples[0].input}</h4>
+        <p class="card-text">${featureDetails.input_output_examples[0].output}</p>
         
       </div>
     </div>
