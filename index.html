@@ -13,15 +13,18 @@
 </head>
 
 <body class="container">
-    <header>
-        <h1 class="d-flex justify-content-center my-4">AI Universe Hub</h1>
+    <header class="d-flex justify-content-center align-items-center">
+       <div class="">
+        <h1 class=" my-4">AI Universe Hub</h1>
+        <button class="my-4 btn btn-primary">sort by date</button>
+       </div>
     </header>
     <main>
         <section>
             <div id="features-all-data" class="row row-cols-1 row-cols-md-3 g-4">
             </div>
             <p id="date"></p>
-            <div class="text-center">
+            <div id="show-all" class="text-center d-none">
                 <button id="show-all-data" class="btn btn-primary">Show All</button>
             </div>
         </section>
@@ -37,7 +40,7 @@
 
   
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

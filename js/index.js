@@ -7,17 +7,19 @@ const allApiData = () => {
 
 const featuresAllApiData = (data) => {
   // console.log(data);
+
   const featuresAllData = document.getElementById("features-all-data");
-  const showAllData = document.getElementById("show-all-data");
-  if (data.length) {
-    data = data.slice(0, 6);
-    showAllData.classList.remove("d-none");
-  } else {
-    showAllData.classList.add("d-none");
-  }
+  const showAllData = document.getElementById("show-all");
+//   if (data.length > 6) {
+//     data = data.slice(0, 6);
+//     showAllData.classList.remove("d-none");
+//   } else {
+//     ;
+//     showAllData.classList.add("d-none");
+//   }
+featuresAllApiData.innerHTML = '';
   data.forEach((singleFeaturesData) => {
     const { id, image, name, features,published_in } = singleFeaturesData;
-    // featuresAllApiData.innerHTML += `
     const card = document.createElement("div");
 
     card.classList.add("card", "mb-3");
@@ -44,7 +46,7 @@ const featuresAllApiData = (data) => {
         `;
     featuresAllData.appendChild(card);
   });
-  toggleLoader(false);
+//   toggleLoader(false);
 };
 
 const fetchFeatureData = (id) => {
@@ -58,7 +60,15 @@ const showFeatureData = (featureDetails) => {
   console.log(featureDetails);
   const { id, input_output_examples,image_link, input, description, pricing, features, integrations, feature_name, accuracy} = featureDetails;
   // featuresAllApiData.innerHTML += `modal-body
-
+// const generate = (rating) =>{
+//     let ratingHTML=``;
+//     for(let i = 0; i<=Math.map(rating); i++){
+//         ratingHTML += `<li></li>`
+//     }
+//     if(rating - Math.map(rating) > 0){
+//         rating += `<li></li>`
+//     }
+// }
   document.getElementById("modal-body").innerHTML = `
 
     <div class="card lg-6">
@@ -68,9 +78,9 @@ const showFeatureData = (featureDetails) => {
       <div class="card-body">
         <h4 class="card-title">${description}</h4>
         <div class="d-flex justify-content-around">
-        <h6>${pricing[0].price}</h6>
-        <h6>${pricing[1].price}</h6>
-        <h6>${pricing[2].price}</h6>
+        <h6>${pricing[0].price || 'Free of Cost/Basic'}</h6>
+        <h6>${pricing[1].price || 'Free Of Cost/Pro'}</h6>
+        <h6>${pricing[2].price || 'Free of Cost /Enterprise'}</h6>
       </div>
       <div class="d-flex justify-content-around">
             <div class="">
@@ -97,7 +107,7 @@ const showFeatureData = (featureDetails) => {
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-      <button>${accuracy.score}</button>
+      <button>${accuracy}</button>
       <img  src="${image_link[0]}" class="card-img-top" alt="" >
         <h4 class="card-title">${input_output_examples[0].input ? input_output_examples[0].input : 'Can you give any example?'}</h4>
         <p class="card-text">${input_output_examples[0].output ? input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}</p>
@@ -111,18 +121,39 @@ const showFeatureData = (featureDetails) => {
 };
 
 
-const toggleLoader = (isLoading) => {
-  const loadingSpinner = document.getElementById("loader");
-  if (isLoading) {
-    loadingSpinner.classList.remove("d-none");
-  } else {
-    loadingSpinner.classList.add("d-none");
-  }
-};
+// const toggleLoader = (isLoading) => {
+//   const loadingSpinner = document.getElementById("loader");
+//   if (isLoading) {
+//     loadingSpinner.classList.remove("d-none");
+//   } else {
+//     loadingSpinner.classList.add("d-none");
+//   }
+// };
 
-document.getElementById("show-all-data").addEventListener("click", function () {
-  toggleLoader(true);
-  featuresAllApiData();
-});
+// document.getElementById("show-all-data").addEventListener("click", function () {
+//     toggleLoader(true);
+    
+//     allApiData();
+// });
 
 allApiData();
+
+
+// ${news?.others_info?.is_trending ? `<span class="badge text-bg-warning">Trending</span>` : ""}
+
+/*{ <button onclick="loadDataDetails('${id}')" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+<i class="fa-solid fa-2x fa-arrow-right"></i>
+  </button>
+const loadDataDetails = async (id) => {
+  const url= `https://openapi.programming-hero.com/api/ai/tool/02/${id}`
+  const res = await fetch(url)
+  const data = await res.json()
+  modalDisplayData(data)
+//  console.log(data);
+}
+
+const modalDisplayData=data=>{
+  console.log(data);
+  const modalShow=document.getElementById('modal-show')
+
+} }*/
