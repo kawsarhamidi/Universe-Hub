@@ -16,7 +16,7 @@ const featuresAllApiData = (data) => {
     showAllData.classList.add("d-none");
   }
   data.forEach((singleFeaturesData) => {
-    const { id, image, name, features } = singleFeaturesData;
+    const { id, image, name, features,published_in } = singleFeaturesData;
     // featuresAllApiData.innerHTML += `
     const card = document.createElement("div");
 
@@ -35,7 +35,7 @@ const featuresAllApiData = (data) => {
                     <div class="d-flex justify-content-between">
                         <div class="">
                             <h4 class="fs-4">${name}</h4>
-                            <p>${singleFeaturesData}</p>
+                            <p><i class="fa-regular fa-calendar-days"></i>${published_in}</p>
                         </div>
                         <i class="fa-solid fa-arrow-right" onclick="fetchFeatureData('${id}')" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
                         </div>
@@ -76,18 +76,19 @@ const showFeatureData = (featureDetails) => {
             <div class="">
                 <h4>Features</h4>
                 <ul>
-                    <li>${features[1].feature_name}</li>
-                    <li>${features[2].feature_name}</li>
-                    <li>${features[3].feature_name}</li>
-                </ul>
+                    <li>${features[1].feature_name ? features[1].feature_name: 'Free of Cost/Basic'}</li>
+                    <li>${features[2].feature_name ? features[2].feature_name: 'Free Of Cost/Pro'}</li>
+                    <li>${features[3].feature_name ? features[3].feature_name: 'Free of Cost /Enterprise'}</li>
+                    </ul>
             </div>
             <div class="">
                 <h4>Integrations</h4>
-                <ul>
-                    <li>${integrations[0]}</li>
-                    <li>${integrations[1]}</li>
-                    <li>${integrations[2]}</li>
-                </ul>
+                <ul >
+                    <li>${integrations[0] ? integrations[0] : 'No data Found'}</li>
+                    <li>${integrations[1] ? integrations[1] : 'No data Found'}</li>
+                    <li>${integrations[2] ? integrations[2] : 'No data Found'}</li>
+                    <li>${integrations[3] ? integrations[3] : 'No data Found'}</li>
+                    </ul>
             </div>
         </div>
       </div>
@@ -98,8 +99,8 @@ const showFeatureData = (featureDetails) => {
       <div class="card-body">
       <button>${accuracy.score}</button>
       <img  src="${image_link[0]}" class="card-img-top" alt="" >
-        <h4 class="card-title">${featureDetails.input_output_examples[0].input}</h4>
-        <p class="card-text">${featureDetails.input_output_examples[0].output}</p>
+        <h4 class="card-title">${input_output_examples[0].input ? input_output_examples[0].input : 'Can you give any example?'}</h4>
+        <p class="card-text">${input_output_examples[0].output ? input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}</p>
         
       </div>
     </div>
@@ -109,11 +110,6 @@ const showFeatureData = (featureDetails) => {
     `;
 };
 
-const date = () => {
-  const day = new Date();
-  const showDate = document.getElementById("date");
-  showDate.innerText = day.getFullYear();
-};
 
 const toggleLoader = (isLoading) => {
   const loadingSpinner = document.getElementById("loader");
