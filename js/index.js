@@ -81,12 +81,14 @@ const generateAllRandomData = (rating) => {
 // });
 function displayDate(sortByData) {
   toggleLoader(true);
-  console.log(sortByData);
-  return sortByData.sort(
-    (a, b) =>
-      new Date(a.published_in).featuresAllApiData() -
-      new Date(b.published_in).featuresAllApiData()
-  );
+  const url = `https://openapi.programming-hero.com/api/ai/tools`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => featuresAllApiData(data.data.tools.sort(
+      (a, b) =>
+        new Date(a.published_in) -
+        new Date(b.published_in)
+    ))) 
 }
 // model function
 const fetchFeatureData = (id) => {
