@@ -1,26 +1,22 @@
-const allApiData = (showmor) => {
+const allApiData = (showMor, sortByData) => {
   const url = `https://openapi.programming-hero.com/api/ai/tools`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => featuresAllApiData(data.data.tools, showmor));
+    .then((data) => featuresAllApiData(data.data.tools, showMor, sortByData));
 };
-
-const featuresAllApiData = (data, showmor) => {
+//card
+const featuresAllApiData = (data, showMor, sortByData) => {
   const featuresAllData = document.getElementById("features-all-data");
   featuresAllData.innerHTML = "";
-  console.log(data);
   const showAll = document.getElementById('show-all');
   // data = data.slice(0, 6);
-  if (!showmor && data?.length > 0) {
+  if (!showMor && data?.length > 0) {
     data = data.slice(0, 6);
     showAll.classList.remove('d-none');
-
   }
   else{
-    showAll.classList.add('d-none');
-    
+    showAll.classList.add('d-none'); 
   }
-  
   data.forEach((singleFeaturesData) => {
     const { id, image, name, features, published_in } = singleFeaturesData;
     const card = document.createElement("div"); 
@@ -35,8 +31,7 @@ const featuresAllApiData = (data, showmor) => {
                         <h4 class="card-title">Features</h4>
                         <ol type ="1" >
                         ${generateAllRandomData(features)}
-                        
-                    </ol>
+                      </ol>
                     <div class="d-flex justify-content-between">
                         <div class="">
                             <h4 class="fs-4">${name}</h4>
@@ -51,15 +46,12 @@ const featuresAllApiData = (data, showmor) => {
   });
   toggleLoader(false);
 };
-
+// show all 
 document.getElementById("show-all-data").addEventListener("click", function () {
   toggleLoader(true);
   allApiData(true);
-  
-
 });
-
-
+// loader
 const toggleLoader = (isLoading) => {
   const loadingSpinner = document.getElementById("loader");
   if (isLoading) {
@@ -68,19 +60,24 @@ const toggleLoader = (isLoading) => {
     loadingSpinner.classList.add("d-none");
   }
 };
-
+// li for loop function
 
 // ${generateAllRandomData(rating.features)}
-
 const generateAllRandomData = (rating) => {
-  console.log(rating);
   let ratingHTML = '';
   for (let i = 0; i < rating.length; i++) {
     ratingHTML += `<li>${rating[i]}</li> `;
   }
+  if (rating - rating.length > 0) {
+    ratingHTML += `<li>"No data Found"</li>`
+  }
   return ratingHTML;
 };
-
+// sort by data
+// const displayDates = sortByData=>{
+//   return sortByData.sort((a,b)=> new Date(a.published_in).getTime - new Date(b.published_in).getTime);
+// }
+// model function
 const fetchFeatureData = (id) => {
   let url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
   fetch(url)
@@ -103,7 +100,6 @@ const showFeatureData = (featureDetails) => {
   } = featureDetails;
   console.log(featureDetails);
   document.getElementById("modal-body").innerHTML = `
-
     <div class="card lg-6">
     <div class="row">
   <div class="col-md-6 mb-3 mb-md-0">
@@ -111,9 +107,9 @@ const showFeatureData = (featureDetails) => {
       <div class="card-body">
         <h4 class="card-title">${description}</h4>
         <div class="d-flex justify-content-around">
-        <h6>${pricing[0].price ? pricing[0].price : "Free of Cost/Basic"}</h6>
-        <h6>${pricing[1].price ? pricing[1].price : "Free Of Cost/Pro"}</h6>
-        <h6>${
+        <h6 class="gap-3 p-2">${pricing[0].price ? pricing[0].price : "Free of Cost/Basic"}</h6>
+        <h6 class="gap-3 p-2">${pricing[1].price ? pricing[1].price : "Free Of Cost/Pro"}</h6>
+        <h6 class="gap-3 p-2">${
           pricing[2].price ? pricing[2].price : "Free of Cost /Enterprise"
         }</h6>
       </div>
@@ -176,5 +172,3 @@ const showFeatureData = (featureDetails) => {
 
 
 allApiData();
-
-// <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
