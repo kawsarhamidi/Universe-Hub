@@ -11,7 +11,6 @@ const featuresAllApiData = (data, showmor) => {
   console.log(data);
   const showAll = document.getElementById('show-all');
   // data = data.slice(0, 6);
-  console.log(data);
   if (!showmor && data?.length > 0) {
     data = data.slice(0, 6);
     showAll.classList.remove('d-none');
@@ -36,7 +35,7 @@ const featuresAllApiData = (data, showmor) => {
                         <h4 class="card-title">Features</h4>
                         <ol type ="1" >
                         ${generateAllRandomData(features)}
-                    <li>${features}</li>    
+                        
                     </ol>
                     <div class="d-flex justify-content-between">
                         <div class="">
@@ -74,9 +73,10 @@ const toggleLoader = (isLoading) => {
 // ${generateAllRandomData(rating.features)}
 
 const generateAllRandomData = (rating) => {
+  console.log(rating);
   let ratingHTML = '';
-  for (let i = 0; i < Math.floor(rating); i++) {
-    ratingHTML += `<li></li> `;
+  for (let i = 0; i < rating.length; i++) {
+    ratingHTML += `<li>${rating[i]}</li> `;
   }
   return ratingHTML;
 };
@@ -101,6 +101,7 @@ const showFeatureData = (featureDetails) => {
     feature_name,
     accuracy,
   } = featureDetails;
+  console.log(featureDetails);
   document.getElementById("modal-body").innerHTML = `
 
     <div class="card lg-6">
@@ -140,18 +141,7 @@ const showFeatureData = (featureDetails) => {
             <div class="">
                 <h4>Integrations</h4>
                 <ul >
-                    <li>${
-                      integrations[0] ? integrations[0] : "No data Found"
-                    }</li>
-                    <li>${
-                      integrations[1] ? integrations[1] : "No data Found"
-                    }</li>
-                    <li>${
-                      integrations[2] ? integrations[2] : "No data Found"
-                    }</li>
-                    <li>${
-                      integrations[3] ? integrations[3] : "No data Found"
-                    }</li>
+                    ${generateAllRandomData(integrations)}
                     </ul>
             </div>
         </div>
@@ -161,7 +151,7 @@ const showFeatureData = (featureDetails) => {
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-      <button>${accuracy.score ? `<p> <span> ${accuracy.score * 100 ? accuracy.score * 100 : "Not Fount"} % accuracy </span></p>` : ''}</button>
+      <div class="btn btn-primary">${accuracy.score ? `<p> <span> ${accuracy.score * 100 ? accuracy.score * 100 : "Not Fount"} % accuracy </span></p>` : ''}</div>
       <img  src="${image_link[0]}" class="card-img-top" alt="" >
         <h4 class="card-title">${
           input_output_examples[0].input
@@ -187,3 +177,4 @@ const showFeatureData = (featureDetails) => {
 
 allApiData();
 
+// <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
