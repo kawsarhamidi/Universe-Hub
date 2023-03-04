@@ -1,8 +1,8 @@
-const allApiData = (dataLimit) => {
+const allApiData = () => {
   const url = `https://openapi.programming-hero.com/api/ai/tools`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => featuresAllApiData(data.data.tools, dataLimit));
+    .then((data) => featuresAllApiData(data.data.tools));
 };
 
 const featuresAllApiData = (data) => {
@@ -10,29 +10,33 @@ const featuresAllApiData = (data) => {
   featuresAllData.innerHTML = "";
   const showAll = document.getElementById('show-all');
   // data = data.slice(0, 6);
-  if (data.length > 6) {
+  console.log(data);
+  if (data?.length > 0) {
     data = data.slice(0, 6);
     showAll.classList.remove('d-none');
+    console.log(data);
   }
   else{
     showAll.classList.add('d-none');
+    console.log(data);
   }
+  
   data.forEach((singleFeaturesData) => {
     const { id, image, name, features, published_in } = singleFeaturesData;
-    const card = document.createElement("div");
-
+    const card = document.createElement("div"); 
+    // const x = document.createElement('ol');
+    // features.forEach(()=>x.innerHTML += `<li></li> ` )
+  
     card.classList.add("card", "mb-3");
     card.innerHTML = `
         <div class="card h-100">
                         <img src="${image}" class="card-img-top" alt="...">
                         <div class="card-body">
                         <h4 class="card-title">Features</h4>
-                        <p class="card-text"><ol type ="1">
-              
-                    <li>${generateAllRandomData(features.rating)}</li>
-                        
-                    </ol></p>
-                    
+                        <ol type ="1" >
+                        ${generateAllRandomData(features.length)}
+                    <li>${features}</li>    
+                    </ol>
                     <div class="d-flex justify-content-between">
                         <div class="">
                             <h4 class="fs-4">${name}</h4>
@@ -46,6 +50,43 @@ const featuresAllApiData = (data) => {
     featuresAllData.appendChild(card);
   });
   toggleLoader(false);
+};
+
+document.getElementById("show-all-data").addEventListener("click", function () {
+  toggleLoader(true);
+  
+  allApiData(12);
+  
+
+});
+
+
+const toggleLoader = (isLoading) => {
+  const loadingSpinner = document.getElementById("loader");
+  if (isLoading) {
+    loadingSpinner.classList.remove("d-none");
+  } else {
+    loadingSpinner.classList.add("d-none");
+  }
+};
+
+const displayDates = () =>{
+  const periods = data.period;
+
+    for (let i = 0; i < periods.length; i++) {
+      const startSerial = periods[i].startSerial;
+      const endSerial = periods[i].endSerial;
+    }
+}
+
+// ${generateAllRandomData(rating.features)}
+
+const generateAllRandomData = (rating) => {
+  let ratingHTML = '';
+  for (let i = 0; i < Math.floor(rating); i++) {
+    ratingHTML += `<li>features</li> `;
+  }
+  return ratingHTML;
 };
 
 const fetchFeatureData = (id) => {
@@ -128,7 +169,7 @@ const showFeatureData = (featureDetails) => {
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-      <button><a>${accuracy.score ? "d-block" : "d-none"}</a></button>
+      <a>${accuracy.score ? accuracy.score : "d-none"}</a></button>
       <img  src="${image_link[0]}" class="card-img-top" alt="" >
         <h4 class="card-title">${
           input_output_examples[0].input
@@ -149,60 +190,8 @@ const showFeatureData = (featureDetails) => {
     `;
 };
 
-const searchData = (dataLimit) => {
-  toggleLoader(true);
 
-  allApiData(6);
-};
-document.getElementById("show-all-data").addEventListener("click", function () {
-  toggleLoader(true);
-  featuresAllApiData();
-  allApiData();
 
-});
-document.getElementById("show-all").addEventListener("click", function () {
-  toggleLoader(true);
-  allApiData();
-  featuresAllApiData();
-
-});
-
-const toggleLoader = (isLoading) => {
-  const loadingSpinner = document.getElementById("loader");
-  if (isLoading) {
-    loadingSpinner.classList.remove("d-none");
-  } else {
-    loadingSpinner.classList.add("d-none");
-  }
-};
-
-// ${generateAllRandomData(rating.features)}
-
-const generateAllRandomData = (rating) => {
-  let ratingHTML = "";
-  for (let i = 0; i < Math.floor(rating); i++) {
-    ratingHTML += `<li></li>`;
-  }
-  return ratingHTML;
-};
 
 allApiData();
 
-// ${news?.others_info?.is_trending ? `<span class="badge text-bg-warning">Trending</span>` : ""}
-
-/*{ <button onclick="loadDataDetails('${id}')" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-<i class="fa-solid fa-2x fa-arrow-right"></i>
-  </button>
-const loadDataDetails = async (id) => {
-  const url= `https://openapi.programming-hero.com/api/ai/tool/02/${id}`
-  const res = await fetch(url)
-  const data = await res.json()
-  modalDisplayData(data)
-//  console.log(data);
-}
-
-const modalDisplayData=data=>{
-  console.log(data);
-  const modalShow=document.getElementById('modal-show')
-
-} }*/
