@@ -1,3 +1,4 @@
+//all data call
 const allApiData = (showMor, sortByData) => {
   const url = `https://openapi.programming-hero.com/api/ai/tools`;
   fetch(url)
@@ -6,23 +7,23 @@ const allApiData = (showMor, sortByData) => {
 };
 //card
 const featuresAllApiData = (data, showMor, sortByData) => {
+  // const sortData = document.getElementById("sort-by-data");
+  // if (!sortByData && data?.length > 0) {
+  //   return sortByData.sort((a,b)=> new Date(a.published_in).getTime - new Date(b.published_in).getTime);
+  // }
   const featuresAllData = document.getElementById("features-all-data");
   featuresAllData.innerHTML = "";
-  const showAll = document.getElementById('show-all');
+  const showAll = document.getElementById("show-all");
   // data = data.slice(0, 6);
   if (!showMor && data?.length > 0) {
     data = data.slice(0, 6);
-    showAll.classList.remove('d-none');
-  }
-  else{
-    showAll.classList.add('d-none'); 
+    showAll.classList.remove("d-none");
+  } else {
+    showAll.classList.add("d-none");
   }
   data.forEach((singleFeaturesData) => {
     const { id, image, name, features, published_in } = singleFeaturesData;
-    const card = document.createElement("div"); 
-    // const x = document.createElement('ol');
-    // features.forEach(()=>x.innerHTML += `<li></li> ` )
-  
+    const card = document.createElement("div");
     card.classList.add("card", "mb-3");
     card.innerHTML = `
         <div class="card h-100">
@@ -46,7 +47,7 @@ const featuresAllApiData = (data, showMor, sortByData) => {
   });
   toggleLoader(false);
 };
-// show all 
+// show all
 document.getElementById("show-all-data").addEventListener("click", function () {
   toggleLoader(true);
   allApiData(true);
@@ -64,19 +65,29 @@ const toggleLoader = (isLoading) => {
 
 // ${generateAllRandomData(rating.features)}
 const generateAllRandomData = (rating) => {
-  let ratingHTML = '';
+  let ratingHTML = "";
   for (let i = 0; i < rating.length; i++) {
     ratingHTML += `<li>${rating[i]}</li> `;
   }
   if (rating - rating.length > 0) {
-    ratingHTML += `<li>"No data Found"</li>`
+    ratingHTML += `<li>"No data Found"</li>`;
   }
   return ratingHTML;
 };
 // sort by data
-// const displayDates = sortByData=>{
-//   return sortByData.sort((a,b)=> new Date(a.published_in).getTime - new Date(b.published_in).getTime);
-// }
+// document.getElementById("sort-by-data").addEventListener("click", function () {
+//   toggleLoader(true);
+//   allApiData(true);
+// });
+function displayDate(sortByData) {
+  toggleLoader(true);
+  console.log(sortByData);
+  return sortByData.sort(
+    (a, b) =>
+      new Date(a.published_in).featuresAllApiData() -
+      new Date(b.published_in).featuresAllApiData()
+  );
+}
 // model function
 const fetchFeatureData = (id) => {
   let url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
@@ -84,18 +95,15 @@ const fetchFeatureData = (id) => {
     .then((res) => res.json())
     .then((data) => showFeatureData(data.data));
 };
-
+//MODEL
 const showFeatureData = (featureDetails) => {
   const {
-    id,
     input_output_examples,
     image_link,
-    input,
     description,
     pricing,
     features,
     integrations,
-    feature_name,
     accuracy,
   } = featureDetails;
   console.log(featureDetails);
@@ -107,8 +115,12 @@ const showFeatureData = (featureDetails) => {
       <div class="card-body">
         <h4 class="card-title">${description}</h4>
         <div class="d-flex justify-content-around">
-        <h6 class="gap-3 p-2">${pricing[0].price ? pricing[0].price : "Free of Cost/Basic"}</h6>
-        <h6 class="gap-3 p-2">${pricing[1].price ? pricing[1].price : "Free Of Cost/Pro"}</h6>
+        <h6 class="gap-3 p-2">${
+          pricing[0].price ? pricing[0].price : "Free of Cost/Basic"
+        }</h6>
+        <h6 class="gap-3 p-2">${
+          pricing[1].price ? pricing[1].price : "Free Of Cost/Pro"
+        }</h6>
         <h6 class="gap-3 p-2">${
           pricing[2].price ? pricing[2].price : "Free of Cost /Enterprise"
         }</h6>
@@ -147,7 +159,13 @@ const showFeatureData = (featureDetails) => {
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-      <div class="btn btn-primary">${accuracy.score ? `<p> <span> ${accuracy.score * 100 ? accuracy.score * 100 : "Not Fount"} % accuracy </span></p>` : ''}</div>
+      <div>${
+        accuracy.score
+          ? `<button  class="btn btn-primary"><span> ${
+              accuracy.score * 100 ? accuracy.score * 100 : "Not Fount"
+            } % accuracy</span></button>`
+          : ""
+      }</div>
       <img  src="${image_link[0]}" class="card-img-top" alt="" >
         <h4 class="card-title">${
           input_output_examples[0].input
@@ -167,8 +185,5 @@ const showFeatureData = (featureDetails) => {
 </div>
     `;
 };
-
-
-
 
 allApiData();
