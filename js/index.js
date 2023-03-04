@@ -1,24 +1,25 @@
-const allApiData = () => {
+const allApiData = (showmor) => {
   const url = `https://openapi.programming-hero.com/api/ai/tools`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => featuresAllApiData(data.data.tools));
+    .then((data) => featuresAllApiData(data.data.tools, showmor));
 };
 
-const featuresAllApiData = (data) => {
+const featuresAllApiData = (data, showmor) => {
   const featuresAllData = document.getElementById("features-all-data");
   featuresAllData.innerHTML = "";
+  console.log(data);
   const showAll = document.getElementById('show-all');
   // data = data.slice(0, 6);
   console.log(data);
-  if (data?.length > 0) {
+  if (!showmor && data?.length > 0) {
     data = data.slice(0, 6);
     showAll.classList.remove('d-none');
-    console.log(data);
+
   }
   else{
     showAll.classList.add('d-none');
-    console.log(data);
+    
   }
   
   data.forEach((singleFeaturesData) => {
@@ -34,7 +35,7 @@ const featuresAllApiData = (data) => {
                         <div class="card-body">
                         <h4 class="card-title">Features</h4>
                         <ol type ="1" >
-                        ${generateAllRandomData(features.length)}
+                        ${generateAllRandomData(features)}
                     <li>${features}</li>    
                     </ol>
                     <div class="d-flex justify-content-between">
@@ -54,8 +55,7 @@ const featuresAllApiData = (data) => {
 
 document.getElementById("show-all-data").addEventListener("click", function () {
   toggleLoader(true);
-  
-  allApiData(12);
+  allApiData(true);
   
 
 });
@@ -70,21 +70,13 @@ const toggleLoader = (isLoading) => {
   }
 };
 
-const displayDates = () =>{
-  const periods = data.period;
-
-    for (let i = 0; i < periods.length; i++) {
-      const startSerial = periods[i].startSerial;
-      const endSerial = periods[i].endSerial;
-    }
-}
 
 // ${generateAllRandomData(rating.features)}
 
 const generateAllRandomData = (rating) => {
   let ratingHTML = '';
   for (let i = 0; i < Math.floor(rating); i++) {
-    ratingHTML += `<li>features</li> `;
+    ratingHTML += `<li></li> `;
   }
   return ratingHTML;
 };
@@ -169,7 +161,7 @@ const showFeatureData = (featureDetails) => {
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-      <a>${accuracy.score ? accuracy.score : "d-none"}</a></button>
+      <button>${accuracy.score ? `<p> <span> ${accuracy.score * 100 ? accuracy.score * 100 : "Not Fount"} % accuracy </span></p>` : ''}</button>
       <img  src="${image_link[0]}" class="card-img-top" alt="" >
         <h4 class="card-title">${
           input_output_examples[0].input
